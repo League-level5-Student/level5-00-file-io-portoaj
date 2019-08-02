@@ -1,6 +1,7 @@
 package _05_Pixel_Art_Save_State;
 
 import java.awt.FlowLayout;
+
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
@@ -9,7 +10,7 @@ import javax.swing.JFrame;
 public class PixelArtMaker implements MouseListener{
 	private JFrame window;
 	private GridInputPanel gip;
-	private GridPanel gp;
+	private static GridPanel gp;
 	ColorSelectionPanel csp;
 	
 	public void start() {
@@ -37,6 +38,10 @@ public class PixelArtMaker implements MouseListener{
 	
 	public static void main(String[] args) {
 		new PixelArtMaker().start();
+	}
+	public static void paint()
+	{
+		gp.repaint();
 	}
 
 	@Override

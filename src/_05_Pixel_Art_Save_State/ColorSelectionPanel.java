@@ -1,6 +1,7 @@
 package _05_Pixel_Art_Save_State;
 
 import java.awt.Color;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
@@ -153,7 +154,7 @@ public class ColorSelectionPanel extends JPanel implements ActionListener, Mouse
 			try {
 				FileOutputStream file = new FileOutputStream("src/_05_Pixel_Art_Save_State/ image.img");
 				ObjectOutputStream out = new ObjectOutputStream(file);
-				out.writeObject(this);
+				out.writeObject(GridPanel.pixels);
 				out.close();
 				file.close();
 				System.out.println("serialized");
@@ -166,12 +167,17 @@ public class ColorSelectionPanel extends JPanel implements ActionListener, Mouse
 		{
 			System.out.println("load img");
 			
-			try {
+			load: try {
 				FileInputStream file = new FileInputStream("src/_05_Pixel_Art_Save_State/ image.img");
 				ObjectInputStream in = new ObjectInputStream(file);
-
-				ColorSelectionPanel csp = (ColorSelectionPanel)in.readObject(); 
-				System.out.println("r is: " + csp.r);
+				Pixel[][] tmp = (Pixel[][]) in.readObject();
+				if(tmp.length != GridPanel.pixels.length)
+				{
+					System.out.println("Wrong dimensions");
+					break load;
+				}
+				GridPanel.pixels = tmp;
+				PixelArtMaker.paint();
 				in.close();
 				file.close();
 				System.out.println("serialized");
